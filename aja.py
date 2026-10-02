@@ -51,7 +51,7 @@
 }
 
 body {
-    min-height: 100vh;
+    min-height: 1.00vh;
     display: flex;
     justify-content: center;
     align-items: center;
