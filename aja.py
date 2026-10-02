@@ -59,10 +59,10 @@ body {
 }
 
 .chat-container {
-    width: 400px;
-    height: 600px;
+    width: px;
+    height: px;
     background: white;
-    border-radius: 15px;
+    border-radius: px;
     overflow: hidden;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
     display: flex;
