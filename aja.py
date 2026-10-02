@@ -1,215 +1,168 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Chatbox</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+import streamlit as st
+import random
 
-<body>
+st.set_page_config(
+    page_title="COLECTIVO AI",
+    page_icon="🤖",
+    layout="centered"
+)
 
-    <div class="chat-container">
+st.title("🤖 COLECTIVO AI")
+st.caption("La personalidad de nuestros cinco compañeros")
 
-        <div class="chat-header">
-            <div>
-                <h2>Mi Chatbox</h2>
-                <span> En línea</span>
-            </div>
-        </div>
- 
-        <div class="chat-messages" id="chatMessages">
-            <div class="message bot">
-                <p> Hola Cómo puedo ayudarte</p>
-            </div>
-        </div>
-
-        <div class="chat-input">
-            <input 
-                type="text" 
-                id="messageInput" 
-                placeholder="Escribe un mensaje..."
-                autocomplete="off"
-            >
-
-            <button id="sendButton">
-                Enviar
-            </button>
-        </div>
-
-    </div>
-
-    <script src="script.js"></script>
-</body>
-</html>
-2. style.css
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
-
-body {
-    min-height: vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #f0f2f5;
-}
-
-.chat-container {
-    width: px;
-    height: px;
-    background: white;
-    border-radius: px;
-    overflow: hidden;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-}
-
-.chat-header {
-    background: #24292f;
-    color: white;
-    padding: 20px;
-}
-
-.chat-header h2 {
-    margin-bottom: 5px;
-}
-
-.chat-header span {
-    color: #7ee787;
-    font-size: 14px;
-}
-
-.chat-messages {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-    background: #f6f8fa;
-}
-
-.message {
-    max-width: 75%;
-    margin-bottom: 15px;
-    padding: 12px 15px;
-    border-radius: 15px;
-    word-wrap: break-word;
-}
-
-.message p {
-    margin: 0;
-}
-
-.bot {
-    background: #e1e4e8;
-    color: #24292f;
-    align-self: flex-start;
-    border-bottom-left-radius: 3px;
-}
-
-.user {
-    background: #0969da;
-    color: white;
-    margin-left: auto;
-    border-bottom-right-radius: 3px;
-}
-
-.chat-input {
-    display: flex;
-    padding: 15px;
-    background: white;
-    border-top: 1px solid #ddd;
-    gap: 10px;
-}
-
-.chat-input input {
-    flex: 1;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    outline: none;
-}
-
-.chat-input input:focus {
-    border-color: #0969da;
-}
-
-.chat-input button {
-    border: none;
-    background: #0969da;
-    color: white;
-    padding: 12px 18px;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.chat-input button:hover {
-    background: #055bb5;
-}
-
-@media (max-width: 500px) {
-    .chat-container {
-        width: 95%;
-        height: 90vh;
+# Información de los compañeros
+companeros = {
+    "Aylen": {
+        "Canciones": "Guaracha",
+        "Películas": "Cónjuro",
+        "Deportes": "Voleibol",
+        "Materia": "Informática",
+        "Comida": "Salchipapa",
+        "Fortalezas": "Tecnología",
+        "Debilidades": "Familia, amigos y amor"
+    },
+    "Gabriela": {
+        "Canciones": "Reggaetón",
+        "Películas": "Rápidos y Furiosos",
+        "Deportes": "Ninguno",
+        "Materia": "Español",
+        "Comida": "Arroz con pollo",
+        "Fortalezas": "Familia",
+        "Debilidades": "La muerte y el amor"
+    },
+    "Sebastián": {
+        "Canciones": "Guaracha",
+        "Películas": "Spider-Man: Sin regreso a casa",
+        "Deportes": "Fútbol y voleibol",
+        "Materia": "Matemáticas",
+        "Comida": "Pizza",
+        "Fortalezas": "Fuerza",
+        "Debilidades": "El amor"
+    },
+    "Kleiber": {
+        "Canciones": "Punk rock",
+        "Películas": "Jurassic Park III",
+        "Deportes": "Voleibol",
+        "Materia": "Física",
+        "Comida": "Lasaña",
+        "Fortalezas": "Inteligencia",
+        "Debilidades": "No especificada"
+    },
+    "Keimer": {
+        "Canciones": "Vallenato",
+        "Películas": "Rocky IV",
+        "Deportes": "Baloncesto",
+        "Materia": "Educación física",
+        "Comida": "Pasta",
+        "Fortalezas": "Velocidad y fuerza",
+        "Debilidades": "One Piece"
     }
 }
-3. script.js
-const input = document.getElementById("messageInput");
-const button = document.getElementById("sendButton");
-const messages = document.getElementById("chatMessages");
 
-function enviarMensaje() {
+# Personalidad colectiva
+personalidad = """
+Soy COLECTIVO AI, un chatbot que representa los gustos
+e intereses de cinco compañeros.
 
-    const texto = input.value.trim();
+Soy amigable, juvenil, respetuoso, curioso y divertido.
+Me gustan la música, las películas, los deportes,
+la tecnología, el aprendizaje y la comida.
 
-    if (texto === "") {
-        return;
-    }
+Represento los intereses colectivos, respetando
+las diferencias de cada persona.
+"""
 
-    // Mensaje del usuario
-    const mensajeUsuario = document.createElement("div");
-    mensajeUsuario.classList.add("message", "user");
+st.info(personalidad)
 
-    mensajeUsuario.innerHTML = `<p>${texto}</p>`;
+# Respuestas automáticas sin API
+def responder(pregunta):
+    p = pregunta.lower()
 
-    messages.appendChild(mensajeUsuario);
+    if any(x in p for x in ["hola", "buenas", "saludos"]):
+        return "¡Hola! 👋 Soy COLECTIVO AI. ¿De qué quieres hablar?"
 
-    input.value = "";
+    elif any(x in p for x in ["canción", "musica", "música"]):
+        return ("🎵 En nuestro grupo hay gustos variados: "
+                "guaracha, reggaetón, punk rock y vallenato. "
+                "¡Tenemos una mezcla musical muy diversa!")
 
-    messages.scrollTop = messages.scrollHeight;
+    elif any(x in p for x in ["película", "pelicula", "cine"]):
+        return ("🎬 Nos gustan las películas de diferentes "
+                "géneros, como terror, acción, superhéroes, "
+                "aventuras y drama deportivo.")
 
-    // Respuesta automática
-    setTimeout(() => {
+    elif any(x in p for x in ["deporte", "fútbol", "futbol",
+                              "voleibol", "baloncesto"]):
+        return ("🏐 El voleibol aparece entre los deportes "
+                "favoritos de varios compañeros. También "
+                "hay interés por el fútbol y el baloncesto.")
 
-        const respuesta = document.createElement("div");
-        respuesta.classList.add("message", "bot");
+    elif any(x in p for x in ["materia", "estudio", "asignatura"]):
+        return ("📚 En el grupo tenemos interés por informática, "
+                "español, matemáticas, física y educación física.")
 
-        respuesta.innerHTML = `
-            <p>Gracias por tu mensaje. 😊</p>
-        `;
+    elif any(x in p for x in ["comida", "comer", "favorita"]):
+        return ("🍕 Entre nuestras comidas favoritas están "
+                "la salchipapa, el arroz con pollo, la pizza, "
+                "la lasaña y la pasta.")
 
-        messages.appendChild(respuesta);
+    elif any(x in p for x in ["fortaleza", "fortalezas"]):
+        return ("💪 Nuestras fortalezas mencionadas incluyen "
+                "la tecnología, la importancia de la familia, "
+                "la fuerza, la inteligencia y la velocidad.")
 
-        messages.scrollTop = messages.scrollHeight;
+    elif any(x in p for x in ["debilidad", "debilidades"]):
+        return ("🧠 Las entrevistas incluyen diferentes "
+                "respuestas personales. Cada compañero tiene "
+                "aspectos propios y merece respeto.")
 
-    }, 700);
-}
+    elif any(x in p for x in ["quién eres", "quien eres",
+                               "tu personalidad"]):
+        return ("🤖 Soy COLECTIVO AI, una personalidad virtual "
+                "inspirada en los gustos e intereses de cinco "
+                "compañeros. ¡Estoy aquí para conversar!")
 
-button.addEventListener("click", enviarMensaje);
+    elif any(x in p for x in ["compañeros", "companeros", "grupo"]):
+        return ("👥 Nuestro grupo está formado por Aylen, "
+                "Gabriela, Sebastián, Kleiber y Keimer. "
+                "Cada uno aporta gustos y características diferentes.")
 
-input.addEventListener("keypress", function(event) {
+    elif any(x in p for x in ["gracias", "adiós", "adios"]):
+        return "😊 ¡Con mucho gusto! Gracias por conversar conmigo."
 
-    if (event.key === "Enter") {
-        enviarMensaje();
-    }
+    else:
+        return ("🤖 ¡Qué interesante! Puedo conversar sobre "
+                "música, películas, deportes, materias, "
+                "comidas y las fortalezas del grupo.")
 
-});
-Estructura del proyecto
-chatbox/
-│
-├── index.html
-├── style.css
-└── script.js
+# Historial del chat
+if "chat" not in st.session_state:
+    st.session_state.chat = []
+
+for mensaje in st.session_state.chat:
+    with st.chat_message(mensaje["role"]):
+        st.write(mensaje["content"])
+
+# Entrada de texto
+pregunta = st.chat_input("Escribe tu pregunta...")
+
+if pregunta:
+    st.session_state.chat.append(
+        {"role": "user", "content": pregunta}
+    )
+
+    respuesta = responder(pregunta)
+
+    st.session_state.chat.append(
+        {"role": "assistant", "content": respuesta}
+    )
+
+    st.rerun()
+
+# Información de entrevistas
+with st.expander("📋 Ver entrevistas"):
+    st.json(companeros)
+
+if st.button("🗑️ Nueva conversación"):
+    st.session_state.chat = []
+    st.rerun()
