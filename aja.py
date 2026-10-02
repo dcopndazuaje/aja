@@ -39,14 +39,14 @@ companeros = {
         "Fortalezas": "Fuerza",
         "Debilidades": "El amor"
     },
-    "Kleiber": {
-        "Canciones": "Punk rock",
-        "Películas": "Jurassic Park III",
-        "Deportes": "Voleibol",
-        "Materia": "Física",
-        "Comida": "Lasaña",
+    "bonilla": {
+        "Canciones": "carranga",
+        "Películas": "gigante de acero",
+        "Deportes": "futbol",
+        "Materia": "sociales",
+        "Comida": "verga",
         "Fortalezas": "Inteligencia",
-        "Debilidades": "No especificada"
+        "Debilidades": "camila"
     },
     "Keimer": {
         "Canciones": "Vallenato",
