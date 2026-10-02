@@ -1,95 +1,51 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gráficas</title>
+API_KEY = 'sk-6549f06fb6b941cea7442e5451561a58'
+API_URL = 'https://api.deepseek.com/v1/chat/completions'
 
-    <!-- Librería Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+def enviar_mensaje(mensaje, modelo='deepseek-chat'):
+    headers = {
+        'Authorization': f'Bearer {API_KEY}',
+        'Content-Type': 'application/json'
+    }
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            margin: 0;
-            padding: 30px;
-            text-align: center;
-        }
+    data = {
+        'model': modelo,
+        'messages': [{'role': 'user', 'content': mensaje}]
+    }
 
-        h1 {
-            color: #333;
-        }
+    try:
+        response = requests.post(API_URL, headers=headers, json=data)
 
-        .contenedor {
-            width: 80%;
-            max-width: 800px;
-            margin: 30px auto;
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-        }
-    </style>
-</head>
+        # Verificar si la respuesta no es exitosa
+        if response.status_code != 200:
+            error_detail = response.json() if response.text else "Sin detalles"
+            return f"Error {response.status_code}: {error_detail}"
 
-<body>
+        return response.json()['choices'][0]['message']['content']
 
-    <h1>📊 Mis Gráficas</h1>
+    except requests.exceptions.RequestException as e:
+        return f"Error de conexión: {e}"
+    except Exception as e:
+        return f"Error Inesperado: {e}"
 
-    <div class="contenedor">
-        <h2>Gráfica de ventas</h2>
-        <canvas id="graficaBarras"></canvas>
-    </div>
+def main():
+    print("Bienvenido al chatbot de DeepSeek. Escribe 'salir' para terminar")
 
-    <div class="contenedor">
-        <h2>Gráfica de temperatura</h2>
-        <canvas id="graficaLinea"></canvas>
-    </div>
+    # Verificar que la API key funciona al inicio
+    test_response = enviar_mensaje("Hola")
+    if "Error" in test_response:
+        print(f" {test_response}")
+        print("Por favor, verifica tu API Key en https://platform.deepseek.com/")
+        return
 
-    <script>
-      
-        const graficaBarras = document.getElementById("graficaBarras");
+    while True:
+        mensaje_usuario = input("Tú: ")
 
-        new Chart(graficaBarras, {
-            type: "bar",
-            data: {
-                labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo"],
-                datasets: [{
-                    label: "Ventas",
-                    data: [120, 190, 150, 220, 280],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
+        if mensaje_usuario.lower() == 'salir':
+            print("Chatbot: ¡Hasta Luego!")
+            break
 
+        respuesta = enviar_mensaje(mensaje_usuario)
+        print(f"Chatbot: {respuesta}")
 
-        const graficaLinea = document.getElementById("graficaLinea");
-
-        new Chart(graficaLinea, {
-            type: "line",
-            data: {
-                labels: ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"],
-                datasets: [{
-                    label: "Temperatura °C",
-                    data: [20, 22, 21, 25, 24],
-                    borderWidth: 3,
-                    tension: 0.3
-                }]
-            },
-            options: {
-                responsive: true
-            }
-        });
-    </script>
-
-</body>
-</html>
+if __name__ == "__main__":
+    main()
