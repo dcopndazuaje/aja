@@ -17,10 +17,10 @@
                 <span> En línea</span>
             </div>
         </div>
-
+ 
         <div class="chat-messages" id="chatMessages">
             <div class="message bot">
-                <p>Hola  ¿Cómo puedo ayudarte?</p>
+                <p> Hola  ¿Cómo puedo ayudarte?</p>
             </div>
         </div>
 
