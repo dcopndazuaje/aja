@@ -14,7 +14,7 @@
         <div class="chat-header">
             <div>
                 <h2>Mi Chatbox</h2>
-                <span>● En línea</span>
+                <span> En línea</span>
             </div>
         </div>
 
